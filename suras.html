@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Suras by Reciter</title>
+<script src="qur.js"></script>
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+
+<link rel="Stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />  
+<script src=""></script>
+<link rel="stylesheet" href="style.css"/>
+
+<script type="text/javascript">
+	var reciter = getParameterByName('rn');
+	var reciterCode = getParameterByName('rc');
+
+	$(function()
+	{
+		var chapter;
+		var html = '<div><ol>';
+		var linkPrefix = '<li><a href="http://download.quranicaudio.com/quran/' + reciterCode + '/';
+		var linkMid = '.mp3">';
+		var linkSuffix = '</a></li>';
+
+		for (var i = 1; i < 115; i++)
+		{
+			if (i < 10)
+				chapter = '00'+i;
+			else if (i < 100)
+				chapter = '0'+i;
+			else
+				chapter = i;
+
+			if (i > 1 && (i-1)%30 == 0)		
+			{
+				html += '</ol><ol start="'+i+'"><li><a href="http://download.quranicaudio.com/quran/' + reciterCode + '/' + chapter + linkMid + qurCh[i-1] + linkSuffix;
+			}
+			else 
+			{
+				html += linkPrefix + chapter + linkMid + qurCh[i-1] + linkSuffix;
+			}
+		}
+
+		html += '</ol></div>';
+		document.getElementById('myLinks').innerHTML = html;
+
+		document.getElementsByTagName('h3')[0].innerHTML = 'Quran Recitations by ' + reciter;
+
+		$('a').not('#nav a').click(function(){
+			$('li').removeClass('activeVid');
+
+			$('.myVid').remove();
+			var newframe =  '<div class="myVid"><video width="300" height="35" controls autoplay name="media"><source src="'+$(this).attr("href") + '" type="audio/mpeg"></video></div>'
+			$(this).parent('li').append(newframe).addClass('activeVid');
+			$(this).parent('li').find('.myVid').fadeIn(1200,"easeOutBounce");
+
+			if (document.getElementsByTagName('form')[0]["playCont"].checked)
+			{
+				$('video').get(0).addEventListener('ended', videoEndHandler, false);
+			}
+			return false;
+		});
+
+		$('#playCont').bind('click', function(e) {
+			if ($(this).is(':checked'))
+			{
+				console.log('checked');
+				$('video').get(0).addEventListener('ended', videoEndHandler, false);
+			}
+			else
+			{
+				console.log('NOT checked');
+				$('video').get(0).removeEventListener('ended', arguments.callee, false);
+			}
+		})
+
+
+	});
+	
+	function videoEndHandler(e) {
+		$(e.target).closest('li').next('li').find('a').trigger('click');
+	}
+
+</script>
+</head>
+
+<body>
+<h3></h3>
+<div id="nav"><a href="reciters.html">View All Reciters</a></div>
+<div id="cont-play"><form><input id="playCont" type="checkbox" name="playCont" value="playOn"/><label for="playCont">Continuous play</label></form></div>
+<div id="myLinks"></div>
+</body>
+</html>

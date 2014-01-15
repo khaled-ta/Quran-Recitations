@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>List of Reciter</title>
+<script src="qur.js"></script>
+<link rel="stylesheet" href="style.css"/>
+
+<script type="text/javascript">
+
+	function Reciter(name, code) {
+		this.name = name;
+		this.code = code;
+	}
+
+	var recMap = new Array();
+	recMap[0] = new Reciter("Mishari Rashid al-`Afasy", "mishaari_raashid_al_3afaasee");
+	recMap[1] = new Reciter("Muhammad Siddiq al-Minshawi", "muhammad_siddeeq_al-minshaawee");
+	recMap[2] = new Reciter("Ahmed ibn Ali al-Ajmy", "ahmed_ibn_3ali_al-3ajamy");
+	recMap[3] = new Reciter("Makkah 1424", "makkah_1424");
+	recMap[4] = new Reciter("Mustafa al-`Azawi", "mustafa_al3azzawi");
+	recMap[5] = new Reciter("Yasser ad-Dussary", "yasser_ad-dussary");
+	recMap[6] = new Reciter("Saad al-Ghamdi", "sa3d_al-ghaamidi/complete");
+	recMap[7] = new Reciter("Abdur-Rahman as-Sudais", "abdurrahmaan_as-sudays");
+	recMap[8] = new Reciter("Mahmoud Khalil Al-Husary", "mahmood_khaleel_al-husaree");
+	recMap[9] = new Reciter("Sahl Yaaseen", "sahl_yaaseen");
+	recMap.push(new Reciter("Abdullaah Basfar", "abdullaah_basfar"));
+
+	// add rest of reciters here
+	
+	window.onload = function() {
+		
+		var html = '<div><ul>';
+
+		for (var i = 0; i < recMap.length; i++)
+		{
+				
+			html += '<li><a href="suras.html?rn=' + recMap[i].name + '&rc=' + recMap[i].code + '">' + recMap[i].name + '</a></li>';
+		}
+		html += '</ul></div>';
+
+		document.getElementById('reciters').innerHTML = html;
+	}
+
+
+
+</script>
+</head>
+
+<body>
+<h3>Reciters</h3>
+<div id="reciters"></div>
+</body>
+</html>
